@@ -30,7 +30,7 @@ public class ImagePixelCounterTest {
     @Test
     public void imageUrlIsAsExpected() {
         when(maxColorsDeterminator.determine(any())).thenReturn(new MaxColorSet(null, null, null));
-        
+
         String expectedUrl = RandomStringUtils.randomAlphabetic(10);
         ImagePixelCounter classUnderTest = new ImagePixelCounter(expectedUrl, maxColorsDeterminator);
 
