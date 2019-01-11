@@ -38,4 +38,15 @@ public class ImagePixelResult {
         this.thirdMostPrevalantColor = thirdMostPrevalantColor;
     }
 
+    @Override
+    public String toString() {
+        return url
+                + ", "
+                + mostPrevalentColor
+                + ", "
+                + secondMostPrevalentColor
+                + ", "
+                + thirdMostPrevalantColor;
+    }
+
 }
