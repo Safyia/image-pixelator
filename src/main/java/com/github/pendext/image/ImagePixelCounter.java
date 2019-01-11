@@ -18,7 +18,23 @@ public class ImagePixelCounter {
         ImagePixelResult imagePixelResult = new ImagePixelResult();
         imagePixelResult.setUrl(url);
 
+        Map<String, Integer> colorCountMap = buildColorCountMapForImage(image);
 
+        List<String> topThreeColors = colorCountMap.entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Entry.comparingByValue()))
+                .map(Entry::getKey)
+                .limit(3)
+                .collect(Collectors.toList());
+
+        imagePixelResult.setMostPrevalentColor(topThreeColors.get(0));
+        imagePixelResult.setSecondMostPrevalentColor(topThreeColors.get(1));
+        imagePixelResult.setThirdMostPrevalantColor(topThreeColors.get(2));
+
+        return imagePixelResult;
+    }
+
+    private Map<String, Integer> buildColorCountMapForImage(BufferedImage image) {
         Map<String, Integer> colorCountMap = new HashMap<>();
 
         for (int x = 0; x < image.getWidth(); x++) {
@@ -33,19 +49,7 @@ public class ImagePixelCounter {
                 }
             }
         }
-
-        List<String> topThreeColors = colorCountMap.entrySet()
-                .stream()
-                .sorted(Collections.reverseOrder(Entry.comparingByValue()))
-                .map(Entry::getKey)
-                .limit(3)
-                .collect(Collectors.toList());
-
-        imagePixelResult.setMostPrevalentColor(topThreeColors.get(0));
-        imagePixelResult.setSecondMostPrevalentColor(topThreeColors.get(1));
-        imagePixelResult.setThirdMostPrevalantColor(topThreeColors.get(2));
-
-        return imagePixelResult;
+        return colorCountMap;
     }
 
 }

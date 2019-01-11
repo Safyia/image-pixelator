@@ -10,6 +10,8 @@ import java.util.concurrent.*;
 
 public class ImagePixelator {
 
+    private static final int FILE_BATCH_SIZE = 8000000;
+
     public static void main(String[] args) throws IOException {
         System.out.println("Beginning process to determine image pixels");
         URL input = ImagePixelator.class.getResource("/input.txt");
@@ -30,7 +32,7 @@ public class ImagePixelator {
                 int contentLength = urlConnection.getContentLength();
                 fileSizes += contentLength;
 
-                if (fileSizes > 20000000) {
+                if (fileSizes > FILE_BATCH_SIZE) {
                     System.out.println("urls to process size: " + urlsToProcess.size());
                     new ImageProducer(queue, urlsToProcess).run();
                     new ImageConsumer(queue).run();
@@ -38,7 +40,7 @@ public class ImagePixelator {
                     fileSizes = 0;
                 }
             } catch (Exception e) {
-                Thread.currentThread().interrupt();
+                throw new RuntimeException("Something went wrong pixeling images", e);
             }
         }
 

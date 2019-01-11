@@ -46,7 +46,7 @@ public class ImagePixelResult {
                 + ", "
                 + secondMostPrevalentColor
                 + ", "
-                + thirdMostPrevalantColor;
+                + thirdMostPrevalantColor + "\n";
     }
 
 }

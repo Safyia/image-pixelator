@@ -1,6 +1,7 @@
 package com.github.pendext.image.queue;
 
 import com.github.pendext.image.*;
+import com.github.pendext.image.file.ImageFileOutputter;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -25,13 +26,15 @@ public class ImageConsumer implements Runnable {
                     BufferedImage bufferedImage = ImageIO.read(imageUrl);
                     ImagePixelCounter imagePixelCounter = new ImagePixelCounter(imageUrl.toString());
                     ImagePixelResult imagePixelResult = imagePixelCounter.countPixels(bufferedImage);
-                    System.out.println(imagePixelResult.toString());
+                    String result = imagePixelResult.toString();
+                    new ImageFileOutputter(result);
+                    System.out.println(result);
                 } catch (Exception e) {
-                    Thread.currentThread().interrupt();
+                    throw new RuntimeException("Something went wrong processing an image", e);
                 }
             });
         } catch (Exception e) {
-            Thread.currentThread().interrupt();
+            throw new RuntimeException("Something went wrong processing a batch of images", e);
         }
     }
 }

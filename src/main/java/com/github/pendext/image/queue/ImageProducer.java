@@ -6,20 +6,20 @@ import java.util.concurrent.BlockingQueue;
 
 public class ImageProducer implements Runnable {
 
-    private BlockingQueue<List<URL>> urls;
+    private BlockingQueue<List<URL>> urlsQueue;
     private List<URL> urlsToProcess;
 
-    public ImageProducer(BlockingQueue<List<URL>> urls, List<URL> urlsToProcess) {
-        this.urls = urls;
+    public ImageProducer(BlockingQueue<List<URL>> urlsQueue, List<URL> urlsToProcess) {
+        this.urlsQueue = urlsQueue;
         this.urlsToProcess = urlsToProcess;
     }
 
     @Override
     public void run() {
         try {
-            urls.put(urlsToProcess);
+            urlsQueue.put(urlsToProcess);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            throw new RuntimeException("Something went wrong queueing images", e);
         }
     }
 
